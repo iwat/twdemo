@@ -1,6 +1,12 @@
 <div class="index">
 	<h2>Tweets</h2>
 
+	<?php
+	echo $this->Form->create('Tweet', array('action' => 'post'));
+	echo $this->Form->input('message', array('label' => false));
+	echo $this->Form->end('Tweet');
+	?>
+
 	<?php foreach ($tweets as $tweet): ?>
 	<div>
 		<div style="padding:1.3em;border: 1px #cccccc solid;">
@@ -16,7 +22,7 @@
 	<?php endforeach; ?>
 
 	<div class="paging">
-		<?= $this->Paginator->prev('<<', array(), null, array('class'=>'disabled'));?> |
+		<?= $this->Paginator->prev('<<', array(), null, array('class' => 'disabled'));?> |
 		<?= $this->Paginator->numbers(); ?> |
 		<?= $this->Paginator->next('>>', array(), null, array('class' => 'disabled')); ?>
 	</div>
@@ -25,6 +31,6 @@
 	<h3>Actions</h3>
 	<ul>
 		<li><?= $this->Html->link('Following', array('action' => 'following')); ?></li>
-		<li><?= $this->Html->link('Follower', array('action' => 'follower')); ?></li>
+		<li><?= $this->Html->link('Followers', array('action' => 'followers')); ?></li>
 	</ul>
 </div>
