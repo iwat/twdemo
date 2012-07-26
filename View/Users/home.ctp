@@ -1,40 +1,41 @@
 <div class="homes index">
-	<h2><?php echo 'Branches'?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<h2><?php echo 'Tweets'?></h2>
 	<?php
 	$i = 0;
-	
-	foreach ($homes as $home):
+
+	foreach ($tweets as $tweet):
 		$class = null;
 		if ($i++ % 2 == 0) {
 			$class = ' class="altrow"';
 		}
 	?>
-	<tr<?php echo $class;?>>
-		<td><?php echo $home['Branch']['id']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($branch['Shop']['title_en'], array('controller' => 'shops', 'action' => 'view', $branch['Shop']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $this->Html->link($branch['Province']['title_en'], array('controller' => 'provinces', 'action' => 'view', $branch['Province']['id'])); ?>
-		</td>
-		<td><?php echo $branch['Branch']['title_th']; ?>&nbsp;</td>
-		<td><?php echo $branch['Branch']['title_en']; ?>&nbsp;</td>
+	<div <?php echo $class;?>>
+		<div style="padding:2em;">
+			<div>
+				<span><?php echo $tweet['User']['username']; ?></span>
+				<span style="float:right"><?php echo $tweet['Tweet']['created']; ?></span>
+			</div>
+			<div>
+				<div><?php echo $tweet['Tweet']['message']; ?></div>
+			</div>
 
-	</tr>
+		</div>
+
+	</div>
+
 <?php endforeach; ?>
-	</table>
+
 	<p>
 	<?php
 	echo $this->Paginator->counter(array(
-	'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
+	'format' => 'Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%'
 	));
 	?>	</p>
 
 	<div class="paging">
-		<?php echo $this->Paginator->prev('<< ' . __('previous', true), array(), null, array('class'=>'disabled'));?>
+		<?php echo $this->Paginator->prev('<< ' . 'previous', array(), null, array('class'=>'disabled'));?>
 	 | 	<?php echo $this->Paginator->numbers();?>
  |
-		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
+		<?php echo $this->Paginator->next('next' . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
 </div>
