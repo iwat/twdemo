@@ -6,3 +6,4 @@
 	echo $this->Form->end('Follow');
 	?>
 </div>
+<?= $this->element('Users/actions'); ?>

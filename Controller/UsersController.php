@@ -123,7 +123,7 @@ class UsersController extends AppController
 		$this->set(compact('follows'));
 	}
 
-	public function follower()
+	public function followers()
 	{
 		$this->Follow->contain(array('User'));
 		$follows = $this->paginate('Follow', array('Follow.following_id' => $this->Auth->user('id')));

@@ -1,4 +1,4 @@
-<div class="users form">
+<div class="form">
 	<?php
 	echo $this->Form->create('User', array('action' => 'register'));
 	echo $this->Form->inputs(array(
@@ -9,4 +9,10 @@
 	));
 	echo $this->Form->end('Sign up');
 	?>
+</div>
+<div class="actions">
+	<h3>Actions</h3>
+	<ul>
+		<li><?= $this->Html->link('Login', array('action' => 'login')); ?></li>
+	</ul>
 </div>
