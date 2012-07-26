@@ -12,25 +12,35 @@ class UsersController extends AppController
 		)
 	);
 
-	public function register() {
-		if ($this->request->is('post')) {
-			if($this->request->data['User']['password'] != $this->request->data['User']['repassword']){
+	public function beforeFilter()
+	{
+		$this->Auth->allow('register');
+	}
+
+	public function register()
+	{
+		if ($this->request->is('post'))
+		{
+			if (empty($this->request->data['User']['password']) || $this->request->data['User']['password'] != $this->request->data['User']['repassword'])
+			{
 				$this->request->data['User']['password'] = '';
 				$this->request->data['User']['repassword'] = '';
-				$this->Session->setFlash(__('password doesn\'t match.'));
+				$this->Session->setFlash('Password doesn\'t match.');
 				return;
 			}
 
-			$this->User->create();
 			$this->request->data['User']['password'] = AuthComponent::password($this->request->data['User']['password']);
 
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
+			if ($this->User->save($this->request->data))
+			{
+				$this->Session->setFlash('The user has been saved.');
+				$this->redirect(array('action' => 'home'));
+			}
+			else
+			{
 				$this->request->data['User']['password'] = '';
 				$this->request->data['User']['repassword'] = '';
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->Session->setFlash('The user could not be saved. Please try again.');
 			}
 		}
 	}
@@ -49,7 +59,8 @@ class UsersController extends AppController
 		$this->redirect($this->Auth->logout());
 	}
 
-	public function home() {
+	public function home()
+	{
 		$user = $this->User->find('first', array(
 			'conditions' => array('User.id' => $this->Auth->user('id')),
 			'contain' => array('Following')
