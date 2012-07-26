@@ -1,62 +1,45 @@
 <?php
 App::uses('AppModel', 'Model');
-/**
- * Tweet Model
- *
- * @property User $User
- */
+
 class Follow extends AppModel
 {
 	public $actsAs = array('Containable');
-/**
- * Validation rules
- *
- * @var array
- */
+
 	public $validate = array(
-		'following_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'user_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			'rule-1' => array(
+				'rule' => array('checkUnique', array('user_id', 'following_id')),
+				'message' => 'This user is already following the specified user.',
 			),
 		),
 	);
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * belongsTo associations
- *
- * @var array
- */
 	public $belongsTo = array(
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'Following' => array(
 			'className' => 'User',
 			'foreignKey' => 'following_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
+
+	public function checkUnique($data, $fields)
+	{
+		if (!is_array($fields))
+			$fields = array($fields);
+
+		foreach ($fields as $key)
+		{
+			$tmp[$key] = $this->data[$this->name][$key];
+		}
+
+		if (isset($this->data[$this->name][$this->primaryKey]))
+		{
+			$tmp[$this->primaryKey] = '<>' . $this->data[$this->name][$this->primaryKey];
+		}
+
+		return $this->isUnique($tmp, false);
+	}
 }
