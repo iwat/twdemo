@@ -1,5 +1,5 @@
 <div class="index">
-	<h2>Following</h2>
+	<h2>Followers</h2>
 	<?php foreach ($follows as $follow): ?>
 		<div style="padding:1.3em;border: 1px #cccccc solid;"><?= $follow['User']['username']; ?></div>
 	<?php endforeach; ?>

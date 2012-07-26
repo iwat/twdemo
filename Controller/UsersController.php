@@ -116,6 +116,24 @@ class UsersController extends AppController
 		}
 	}
 
+	public function unfollow($userId)
+	{
+		$this->Follow->contain(array('Following'));
+		$follow = $this->Follow->findByUserIdAndFollowingId($this->Auth->user('id'), $userId);
+
+		if ($follow)
+		{
+			$this->Follow->delete($follow['Follow']['id']);
+			$this->Session->setFlash('@' . $follow['Following']['username'] . ' has been unfollowed.');
+		}
+		else
+		{
+			$this->Session->setFlash('User is not being followed by you.');
+		}
+
+		$this->redirect($this->referer());
+	}
+
 	public function following()
 	{
 		$this->Follow->contain(array('Following'));
