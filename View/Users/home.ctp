@@ -1,15 +1,6 @@
 <div class="homes index">
 	<h2><?php echo 'Tweets'?></h2>
-	<?php
-	$i = 0;
-
-	foreach ($tweets as $tweet):
-		$class = null;
-		if ($i++ % 2 == 0) {
-			$class = ' class="altrow"';
-		}
-	?>
-	<div <?php echo $class;?>>
+	<?php foreach ($tweets as $tweet): ?>
 		<div style="padding:1.3em;border: 1px #cccccc solid;">
 			<div style="margin-bottom:0.5em;">
 				<span><?php echo $tweet['User']['username']; ?></span>
@@ -18,11 +9,7 @@
 			<div>
 				<div><?php echo $tweet['Tweet']['message']; ?></div>
 			</div>
-
 		</div>
-
-	</div>
-
 <?php endforeach; ?>
 
 	<p>

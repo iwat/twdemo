@@ -3,12 +3,17 @@ App::uses('AuthComponent', 'Controller/Component');
 
 class UsersController extends AppController
 {
-	public $uses = array('User', 'Tweet');
+	public $uses = array('User', 'Tweet', 'Follow');
 
 	public $paginate = array(
 		'Tweet' => array(
 			'limit' => 2,
 			'order' => array('created' => 'desc')
+		),
+		'Follow' => array(
+			'limit' => 2,
+			'order' => array('id' => 'asc'),
+			'contain' => array('Following')
 		)
 	);
 
@@ -79,5 +84,11 @@ class UsersController extends AppController
 		$tweets = $this->paginate('Tweet', array('User.id' => $userIds));
 		$this->set(compact('tweets'));
 		//debug($tweets);
+	}
+
+	public function following()
+	{
+		$follows = $this->paginate('Follow', array('Follow.user_id' => $this->Auth->user('id')));
+		$this->set(compact('follows'));
 	}
 }
