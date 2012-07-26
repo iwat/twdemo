@@ -84,36 +84,44 @@ class UsersController extends AppController
 		$this->set(compact('tweets'));
 	}
 
-	public function follow()
+	public function follow($userId = null)
 	{
 		if ($this->request->is('post'))
 		{
 			$this->User->contain();
 			$user = $this->User->findByUsername($this->request->data['User']['username']);
+		}
+		else
+		{
+			$this->User->contain();
+			$user = $this->User->findById($userId);
+		}
 
-			if ($user)
+		if ($user)
+		{
+			$follow = $this->Follow->create();
+			$follow['Follow']['user_id'] = $this->Auth->user('id');
+			$follow['Follow']['following_id'] = $user['User']['id'];
+
+			if ($this->Follow->save($follow))
 			{
-				$follow = $this->Follow->create();
-				$follow['Follow']['user_id'] = $this->Auth->user('id');
-				$follow['Follow']['following_id'] = $user['User']['id'];
-
-				if ($this->Follow->save($follow))
-				{
-					$this->Session->setFlash('You are now following ' . $this->request->data['User']['username']);
-				}
-				else
-				{
-					if (isset($this->Follow->validationErrors['user_id']))
-					{
-						$this->User->validationErrors['username'] = $this->Follow->validationErrors['user_id'];
-					}
-				}
+				$this->Session->setFlash('You are now following @' . $user['User']['username']);
 			}
 			else
 			{
-				$this->Session->setFlash('The specified username does not exist.');
+				if (isset($this->Follow->validationErrors['user_id']))
+				{
+					$this->User->validationErrors['username'] = $this->Follow->validationErrors['user_id'];
+				}
 			}
 		}
+		else
+		{
+			$this->Session->setFlash('The specified username does not exist.');
+		}
+
+		if (!$this->request->is('post'))
+			$this->redirect($this->referer());
 	}
 
 	public function unfollow($userId)
