@@ -2,7 +2,7 @@
 	<h2>Following</h2>
 	<?php foreach ($follows as $follow): ?>
 		<div style="padding:1.3em;border: 1px #cccccc solid;">
-			<strong><?= $follow['Following']['username']; ?></strong>
+			@<?= $follow['Following']['username']; ?>
 			<?= $this->Html->link('Unfollow', array('action' => 'unfollow', $follow['Following']['id'])); ?>
 		</div>
 	<?php endforeach; ?>
