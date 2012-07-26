@@ -3,6 +3,7 @@ App::uses('AuthComponent', 'Controller/Component');
 
 class UsersController extends AppController
 {
+	public $helpers = array('Time');
 	public $uses = array('User', 'Tweet', 'Follow');
 
 	public $paginate = array(
