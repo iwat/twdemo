@@ -157,6 +157,16 @@ class UsersController extends AppController
 	{
 		$this->Follow->contain(array('User'));
 		$follows = $this->paginate('Follow', array('Follow.following_id' => $this->Auth->user('id')));
+
+		foreach ($follows as &$follow)
+		{
+			$count = $this->Follow->find('count', array('conditions' => array(
+				'Follow.user_id' => $this->Auth->user('id'),
+				'Follow.following_id' => $follow['Follow']['user_id']
+			)));
+			$follow['Follow']['twoway'] = ($count > 0);
+		}
+
 		$this->set(compact('follows'));
 	}
 }
