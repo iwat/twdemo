@@ -78,6 +78,6 @@ class UsersController extends AppController
 
 		$tweets = $this->paginate('Tweet', array('User.id' => $userIds));
 		$this->set(compact('tweets'));
-		debug($tweets);
+		//debug($tweets);
 	}
 }
