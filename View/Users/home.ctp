@@ -1,28 +1,36 @@
-<div class="homes index">
-	<h2><?php echo 'Tweets'?></h2>
+<div class="index">
+	<h2>Tweets</h2>
+
+	<?php
+	echo $this->Form->create('Tweet', array('action' => 'post'));
+	echo $this->Form->input('message', array('label' => false));
+	echo $this->Form->end('Tweet');
+	?>
+
 	<?php foreach ($tweets as $tweet): ?>
+	<div>
 		<div style="padding:1.3em;border: 1px #cccccc solid;">
 			<div style="margin-bottom:0.5em;">
-				<span><?php echo $tweet['User']['username']; ?></span>
+				<span><?= $tweet['User']['username']; ?></span>
 				<span style="float:right"><?php echo $tweet['Tweet']['created']; ?></span>
 			</div>
 			<div>
-				<div><?php echo $tweet['Tweet']['message']; ?></div>
+				<div><?= $tweet['Tweet']['message']; ?></div>
 			</div>
 		</div>
-<?php endforeach; ?>
-
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => 'Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%'
-	));
-	?>	</p>
+	</div>
+	<?php endforeach; ?>
 
 	<div class="paging">
-		<?php echo $this->Paginator->prev('<< ' . 'previous', array(), null, array('class'=>'disabled'));?>
-	 | 	<?php echo $this->Paginator->numbers();?>
- |
-		<?php echo $this->Paginator->next('next' . ' >>', array(), null, array('class' => 'disabled'));?>
+		<?= $this->Paginator->prev('<<', array(), null, array('class' => 'disabled'));?> |
+		<?= $this->Paginator->numbers(); ?> |
+		<?= $this->Paginator->next('>>', array(), null, array('class' => 'disabled')); ?>
 	</div>
+</div>
+<div class="actions">
+	<h3>Actions</h3>
+	<ul>
+		<li><?= $this->Html->link('Following', array('action' => 'following')); ?></li>
+		<li><?= $this->Html->link('Followers', array('action' => 'followers')); ?></li>
+	</ul>
 </div>
