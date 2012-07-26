@@ -93,6 +93,9 @@ class UsersController extends AppController
 		}
 		else
 		{
+			if ($userId == null)
+				return;
+
 			$this->User->contain();
 			$user = $this->User->findById($userId);
 		}
