@@ -11,7 +11,7 @@
 	<div>
 		<div style="padding:1.3em;border: 1px #cccccc solid;">
 			<div style="margin-bottom:0.5em;">
-				<span><?= $tweet['User']['username']; ?></span>
+				<span style="font-weight:bold;"><?= $tweet['User']['username']; ?></span>
 				<span style="float:right"><?php echo $tweet['Tweet']['created']; ?></span>
 			</div>
 			<div>

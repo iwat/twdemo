@@ -7,11 +7,11 @@ class UsersController extends AppController
 
 	public $paginate = array(
 		'Tweet' => array(
-			'limit' => 2,
+			'limit' => 5,
 			'order' => array('created' => 'desc')
 		),
 		'Follow' => array(
-			'limit' => 2,
+			'limit' => 5,
 			'order' => array('id' => 'asc')
 		)
 	);
