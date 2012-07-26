@@ -12,8 +12,7 @@ class UsersController extends AppController
 		),
 		'Follow' => array(
 			'limit' => 2,
-			'order' => array('id' => 'asc'),
-			'contain' => array('Following')
+			'order' => array('id' => 'asc')
 		)
 	);
 
@@ -88,7 +87,15 @@ class UsersController extends AppController
 
 	public function following()
 	{
+		$this->Follow->contain(array('Following'));
 		$follows = $this->paginate('Follow', array('Follow.user_id' => $this->Auth->user('id')));
+		$this->set(compact('follows'));
+	}
+
+	public function follower()
+	{
+		$this->Follow->contain(array('User'));
+		$follows = $this->paginate('Follow', array('Follow.following_id' => $this->Auth->user('id')));
 		$this->set(compact('follows'));
 	}
 }
