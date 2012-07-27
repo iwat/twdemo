@@ -22,46 +22,52 @@ class DemoController extends AppController
 			{
 				if (is_uploaded_file($file1['tmp_name']))
 				{
-					$info = pathinfo($file1['name']); // split filename and extension
-
-					// Save to BLOB
-					$upload = $this->Upload->findByName($file1['name']);
-
-					if (!$upload)
-					{
-						$upload = $this->Upload->create();
-						$upload['Upload']['name'] = $file1['name'];
-						$upload['Upload']['type'] = $file1['type'];
-						$upload['Upload']['data'] = file_get_contents($file1['tmp_name']);
-						$this->Upload->save($upload);
-					}
-					else
-					{
-						$upload['Upload']['type'] = $file1['type'];
-						$upload['Upload']['data'] = file_get_contents($file1['tmp_name']);
-						$this->Upload->save($upload, true, array('type', 'data'));
-					}
-
-					// Save to Disk
-					$saveName = md5($info['basename']) . '.' . $info['extension'];
-					$savePath = WWW_ROOT . 'uploads' . DS . $saveName;
-
-					if (move_uploaded_file($file1['tmp_name'], $savePath))
-					{
-						$this->Session->setFlash(FULL_BASE_URL . $this->webroot . 'uploads/' . $saveName);
-					}
+					$this->saveToBLOB($file1);
+					$this->saveToFile($file1);
 				}
 			}
 		}
 	}
 
-	public function download()
+	private function saveToBLOB($file)
+	{
+		$upload = $this->Upload->findByName($file['name']);
+
+		if (!$upload)
+		{
+			$upload = $this->Upload->create();
+			$upload['Upload']['name'] = $file['name'];
+			$upload['Upload']['type'] = $file['type'];
+			$upload['Upload']['data'] = file_get_contents($file['tmp_name']);
+			$this->Upload->save($upload);
+		}
+		else
+		{
+			$upload['Upload']['type'] = $file['type'];
+			$upload['Upload']['data'] = file_get_contents($file['tmp_name']);
+			$this->Upload->save($upload, true, array('type', 'data'));
+		}
+
+		$this->set('blobURL', array('action' => 'download', $this->Upload->id));
+	}
+
+	private function saveToFile($file)
+	{
+		$info = pathinfo($file['name']); // split filename and extension
+		$saveName = md5($info['basename']) . '.' . $info['extension'];
+		$savePath = WWW_ROOT . 'uploads' . DS . $saveName;
+
+		if (move_uploaded_file($file['tmp_name'], $savePath))
+		{
+			$this->set('fileURL', FULL_BASE_URL . $this->webroot . 'uploads/' . $saveName);
+		}
+	}
+
+	public function download($uploadId)
 	{
 		$this->autoRender = false;
 
-		$filename = $this->request->query['q'];
-
-		$upload = $this->Upload->findByName($filename);
+		$upload = $this->Upload->findById($uploadId);
 		$this->response->type($upload['Upload']['type']);
 		// enable this line to force download
 		//$this->response->download($upload['Upload']['name']);
