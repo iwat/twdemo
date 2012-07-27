@@ -3,8 +3,8 @@
 	echo $this->Form->create('User', array('action' => 'register'));
 	echo $this->Form->inputs(array(
 		'legend' => 'Register',
-		'username',
-		'password',
+		'username' => array('autocomplete' => 'off'),
+		'password' => array('autocomplete' => 'off'),
 		'repassword' => array('type' => 'password', 'required' => true)
 	));
 	echo $this->Form->end('Sign up');
