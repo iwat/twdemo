@@ -85,7 +85,7 @@ class UsersController extends AppController
 		$this->set(compact('tweets'));
 	}
 
-	public function follow()
+	public function followForm()
 	{
 		if ($this->request->is('post'))
 		{
@@ -117,7 +117,7 @@ class UsersController extends AppController
 		}
 	}
 
-	public function followId($userId)
+	public function follow($userId)
 	{
 		$this->User->contain();
 		$user = $this->User->findById($userId);

@@ -6,7 +6,7 @@
 			<?php if ($follow['Follow']['twoway']): ?>
 				<?= $this->Html->link('Unfollow', array('action' => 'unfollow', $follow['User']['id'])); ?>
 			<?php else: ?>
-				<?= $this->Html->link('Follow', array('action' => 'followId', $follow['User']['id'])); ?>
+				<?= $this->Html->link('Follow', array('action' => 'follow', $follow['User']['id'])); ?>
 			<?php endif; ?>
 		</div>
 	<?php endforeach; ?>
