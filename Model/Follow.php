@@ -1,6 +1,4 @@
 <?php
-App::uses('AppModel', 'Model');
-
 class Follow extends AppModel
 {
 	public $actsAs = array('Containable');
@@ -27,9 +25,6 @@ class Follow extends AppModel
 
 	public function checkUnique($data, $fields)
 	{
-		if (!is_array($fields))
-			$fields = array($fields);
-
 		foreach ($fields as $key)
 		{
 			$tmp[$key] = $this->data[$this->name][$key];

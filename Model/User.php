@@ -1,11 +1,4 @@
 <?php
-App::uses('AppModel', 'Model');
-/**
- * User Model
- *
- * @property Tweet $Tweet
- * @property Follow $Follow
- */
 class User extends AppModel
 {
 	public $actsAs = array('Containable');
@@ -13,73 +6,41 @@ class User extends AppModel
 
 	public $validate = array(
 		'username' => array(
-			'notempty' => array(
+			'rule-1' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				'message' => 'Username must not be empty.',
 			),
-			'isUnique' => array(
-				'rule' => array('isUnique')
+			'rule-2' => array(
+				'rule' => array('isUnique'),
+				'message' => 'This username is already registered.'
 			)
 		),
 		'password' => array(
-			'notempty' => array(
+			'rule-1' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				'message' => 'Password must not be empty.',
 			),
 		),
 	);
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * hasMany associations
- *
- * @var array
- */
 	public $hasMany = array(
 		'Tweet' => array(
-			'className' => 'Tweet',
-			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
+			'order' => 'created DESC',
 		)
 	);
 
-
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
 	public $hasAndBelongsToMany = array(
 		'Following' => array(
 			'className' => 'User',
 			'joinTable' => 'follows',
 			'foreignKey' => 'user_id',
-			'associationForeignKey' => 'following_id',
-			'unique' => 'keepExisting'
+			'associationForeignKey' => 'following_id'
 		),
 		'Follower' => array(
 			'className' => 'User',
 			'joinTable' => 'follows',
 			'foreignKey' => 'following_id',
-			'associationForeignKey' => 'user_id',
-			'unique' => 'keepExisting'
+			'associationForeignKey' => 'user_id'
 		)
 	);
 }

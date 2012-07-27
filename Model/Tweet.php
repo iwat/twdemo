@@ -1,54 +1,22 @@
 <?php
-App::uses('AppModel', 'Model');
-/**
- * Tweet Model
- *
- * @property User $User
- */
-class Tweet extends AppModel {
+class Tweet extends AppModel
+{
+	public $actsAs = array('Containable');
 
-/**
- * Validation rules
- *
- * @var array
- */
 	public $validate = array(
 		'message' => array(
-			'notempty' => array(
+			'rule-1' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				'message' => 'Tweet message must not be empty.',
 			),
 		),
 		'user_id' => array(
-			'numeric' => array(
+			'rule-1' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				'message' => 'Invalid user_id.',
 			),
 		),
 	);
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
+	public $belongsTo = array('User');
 }
