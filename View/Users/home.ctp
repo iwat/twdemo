@@ -9,7 +9,7 @@
 
 	<?php foreach ($tweets as $tweet): ?>
 	<div>
-		<div style="padding:1.3em;border: 1px #cccccc solid;">
+		<div style="padding:1.3em;border:1px #ccc solid;">
 			<div style="margin-bottom:0.5em;">
 				<span>@<?= $tweet['User']['username']; ?></span>
 				<span style="float:right"><?= $this->Time->niceShort($tweet['Tweet']['created']); ?></span>
@@ -22,9 +22,9 @@
 	<?php endforeach; ?>
 
 	<div class="paging">
-		<?= $this->Paginator->prev('<<', array(), null, array('class' => 'disabled')); ?> |
+		<?= $this->Paginator->prev('<<'); ?> |
 		<?= $this->Paginator->numbers(); ?> |
-		<?= $this->Paginator->next('>>', array(), null, array('class' => 'disabled')); ?>
+		<?= $this->Paginator->next('>>'); ?>
 	</div>
 </div>
 <?= $this->element('Users/actions'); ?>

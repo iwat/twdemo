@@ -8,4 +8,3 @@
 		<li><?= $this->Html->link('Logout', array('action' => 'logout')); ?></li>
 	</ul>
 </div>
-
