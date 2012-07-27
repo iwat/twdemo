@@ -1,6 +1,8 @@
 <?php
 class TweetsController extends AppController
 {
+	public $components = array('RequestHandler');
+
 	public function post()
 	{
 		if ($this->request->is('post'))
@@ -21,5 +23,18 @@ class TweetsController extends AppController
 
 			$this->redirect($this->referer());
 		}
+	}
+
+	public function index()
+	{
+		$tweets = $this->Tweet->find('all', array(
+			'limit' => 20,
+			'order' => array('created' => 'desc'),
+			'contain' => array(
+				'User' => array('fields' => array('id', 'username'))
+			)
+		));
+		$this->set(compact('tweets'));
+		$this->set('_serialize', 'tweets');
 	}
 }
